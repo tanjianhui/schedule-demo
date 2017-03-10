@@ -1,0 +1,14 @@
+@startuml
+
+autonumber "<b>(<u>###</u>)"
+
+actor RabbitMQ
+participant "GM-dropship-sync" as GDS
+
+RabbitMQ --> GDS : 监听作业执行通知
+
+GDS -> GDS : 执行业务逻辑
+
+GDS --> RabbitMQ : 发送作业执行结果消息
+
+@enduml

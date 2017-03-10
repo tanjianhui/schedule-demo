@@ -1,0 +1,27 @@
+@startuml
+
+autonumber "<b>(<u>###</u>)"
+
+actor Timer
+participant BusinessTaskScheduler as BTS
+participant "GM-dropship-service" as GDS
+database "Redis" as DB
+
+note left of Timer
+    定时器
+    每分钟执行一次
+end note
+
+Timer -> BTS : 触发任务执行
+
+BTS -> DB : 获取API可调用次数信息（I）
+
+alt I 不存在
+    BTS -> DB : 新增 I
+else
+    alt API可调用次数 < API最大可调用次数
+        BTS -> DB : API可调用次数 自增1
+    end
+end
+
+@enduml

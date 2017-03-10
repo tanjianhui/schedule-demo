@@ -1,0 +1,27 @@
+@startuml
+
+actor Timer <<Application>>
+actor BVO <<Application>>
+actor RabbitMQ <<Application>>
+
+rectangle "GM-dropship-schedule"{
+    Timer --> (Manage Scheduler)
+    Timer --> (Manage Job)
+    Timer --> (Schedule Business Task)
+    Timer --> (Manage API Callable Count)
+
+    (Manage Job) ..> RabbitMQ
+    RabbitMQ ..> (Process Job Result)
+}
+
+rectangle "GM-dropship-service"{
+    (Schedule Business Task) --> (Execute Business Logic)
+    BVO -> (Execute Business Logic)
+    (Execute Business Logic) --> (Separate Job)
+}
+
+rectangle "GM-dropship-sync"{
+    RabbitMQ <..> (Execute Business Job)
+}
+
+@enduml

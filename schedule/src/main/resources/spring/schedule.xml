@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-lazy-init="false">
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="configLocation" value="classpath:quartz/quartz.properties"/>
+        <property name="globalTriggerListeners">
+            <list>
+            </list>
+        </property>
+        <property name="globalJobListeners">
+			<list>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref local="scheduleManagingTrigger" />
+            </list>
+        </property>
+        <property name="waitForJobsToCompleteOnShutdown" value="true"></property>
+        <property name="startupDelay" value="30"></property>
+        <property name="overwriteExistingJobs" value="false"></property>
+    </bean>
+
+    <bean id="scheduleManagingJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="scheduleManagingScheduler" />
+        <property name="targetMethod" value="execute" />
+        <property name="durable" value="true" />
+    </bean>
+    <bean id="scheduleManagingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="cronExpression" value="0 * * * * ?" />
+        <property name="jobDetail" ref="scheduleManagingJobDetail"></property>
+    </bean>
+
+    <bean id="stockSyncJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="stockSyncScheduler" />
+        <property name="targetMethod" value="execute" />
+        <property name="durable" value="true" />
+    </bean>
+</beans>

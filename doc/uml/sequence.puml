@@ -1,0 +1,27 @@
+@startuml
+
+actor Caller
+boundary BusinessController
+control BusinessService
+control JobService
+entity Task
+entity JobMonitor
+
+Caller -> BusinessController : 安排作业执行
+BusinessController -> BusinessService : 新增作业
+BusinessService -> Task : 获取作业所属任务信息
+
+loop
+    alt 任务不支持并发
+        BusinessService -> JobMonitor : 获取是否存在并发作业
+        alt 存在并发作业
+            BusinessService -->BusinessController : 返回失败
+            BusinessController --> Caller : 返回失败
+        end
+    end
+end
+        BusinessService -> JobMonitor : 新增作业
+BusinessService -->BusinessController : 返回成功
+BusinessController --> Caller : 返回成功
+
+@enduml

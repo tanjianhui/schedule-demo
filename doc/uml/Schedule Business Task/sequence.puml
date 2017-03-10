@@ -1,0 +1,38 @@
+@startuml
+
+autonumber "<b>(<u>###</u>)"
+
+actor Timer
+participant BusinessTaskScheduler as BTS
+participant "GM-dropship-service" as GDS
+database MySql
+actor RabbitMQ
+
+note left of Timer
+    定时器
+    按实际业务要求的间隔时间执行
+end note
+
+Timer -> BTS : 触发业务处理执行
+
+BTS -> GDS : 调用http接口，处理业务逻辑
+
+GDS -> MySql : 获取业务数据
+
+alt case 需按店铺拆分作业
+    GDS -> GDS : 按店铺拆分作业
+end
+
+GDS --> RabbitMQ : 发送作业消息
+
+BTS --> RabbitMQ : 监听
+
+loop 遍历作业列表
+    alt case 任务不可并发执行，\n        且尚有同一个任务尚未完成的作业
+        BTS -> BTS : 将作业状态设置为完成
+    end
+end
+
+BTS -> MySql : 保存（新建）作业记录
+
+@enduml

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scheduledemo.dao.TaskMapper" >
+  <resultMap id="BaseResultMap" type="com.scheduledemo.model.Task" >
+    <id column="tas_id" property="tasId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="estimate_cost_time" property="estimateCostTime" jdbcType="INTEGER" />
+    <result column="estimate_max_cost_time" property="estimateMaxCostTime" jdbcType="INTEGER" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="concurrency" property="concurrency" jdbcType="VARCHAR" />
+    <result column="retry_rule" property="retryRule" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_by" property="lastUpdateBy" jdbcType="VARCHAR" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tas_id, name, estimate_cost_time, estimate_max_cost_time, priority, concurrency, 
+    retry_rule, remark, create_by, create_time, last_update_by, last_update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.scheduledemo.model.TaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tas_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tas_task
+    where tas_id = #{tasId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tas_task
+    where tas_id = #{tasId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.scheduledemo.model.TaskExample" >
+    delete from tas_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.scheduledemo.model.Task" >
+    insert into tas_task (tas_id, name, estimate_cost_time, 
+      estimate_max_cost_time, priority, concurrency, 
+      retry_rule, remark, create_by, 
+      create_time, last_update_by, last_update_time
+      )
+    values (#{tasId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{estimateCostTime,jdbcType=INTEGER}, 
+      #{estimateMaxCostTime,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, #{concurrency,jdbcType=VARCHAR}, 
+      #{retryRule,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.scheduledemo.model.Task" >
+    insert into tas_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tasId != null" >
+        tas_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="estimateCostTime != null" >
+        estimate_cost_time,
+      </if>
+      <if test="estimateMaxCostTime != null" >
+        estimate_max_cost_time,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="concurrency != null" >
+        concurrency,
+      </if>
+      <if test="retryRule != null" >
+        retry_rule,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastUpdateBy != null" >
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tasId != null" >
+        #{tasId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="estimateCostTime != null" >
+        #{estimateCostTime,jdbcType=INTEGER},
+      </if>
+      <if test="estimateMaxCostTime != null" >
+        #{estimateMaxCostTime,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="concurrency != null" >
+        #{concurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="retryRule != null" >
+        #{retryRule,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null" >
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.scheduledemo.model.TaskExample" resultType="java.lang.Integer" >
+    select count(*) from tas_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tas_task
+    <set >
+      <if test="record.tasId != null" >
+        tas_id = #{record.tasId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.estimateCostTime != null" >
+        estimate_cost_time = #{record.estimateCostTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.estimateMaxCostTime != null" >
+        estimate_max_cost_time = #{record.estimateMaxCostTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.concurrency != null" >
+        concurrency = #{record.concurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.retryRule != null" >
+        retry_rule = #{record.retryRule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdateBy != null" >
+        last_update_by = #{record.lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdateTime != null" >
+        last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tas_task
+    set tas_id = #{record.tasId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      estimate_cost_time = #{record.estimateCostTime,jdbcType=INTEGER},
+      estimate_max_cost_time = #{record.estimateMaxCostTime,jdbcType=INTEGER},
+      priority = #{record.priority,jdbcType=INTEGER},
+      concurrency = #{record.concurrency,jdbcType=VARCHAR},
+      retry_rule = #{record.retryRule,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      last_update_by = #{record.lastUpdateBy,jdbcType=VARCHAR},
+      last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scheduledemo.model.Task" >
+    update tas_task
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="estimateCostTime != null" >
+        estimate_cost_time = #{estimateCostTime,jdbcType=INTEGER},
+      </if>
+      <if test="estimateMaxCostTime != null" >
+        estimate_max_cost_time = #{estimateMaxCostTime,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="concurrency != null" >
+        concurrency = #{concurrency,jdbcType=VARCHAR},
+      </if>
+      <if test="retryRule != null" >
+        retry_rule = #{retryRule,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null" >
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where tas_id = #{tasId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scheduledemo.model.Task" >
+    update tas_task
+    set name = #{name,jdbcType=VARCHAR},
+      estimate_cost_time = #{estimateCostTime,jdbcType=INTEGER},
+      estimate_max_cost_time = #{estimateMaxCostTime,jdbcType=INTEGER},
+      priority = #{priority,jdbcType=INTEGER},
+      concurrency = #{concurrency,jdbcType=VARCHAR},
+      retry_rule = #{retryRule,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where tas_id = #{tasId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,15 @@
+@startuml
+[*] --> New : 业务调度任务新建作业
+New --> Initial : 作业管理任务发送消息
+Initial --> Processing : 同步工程收到消息开始执行作业
+Processing --> Done : 作业执行成功
+Processing --> Fail : 作业执行异常
+Processing --> Timeout : 处理超时作业
+Timeout --> Killed : 人工干预
+Timeout --> Done : 人工干预
+Timeout --> Fail : 人工干预
+Done --> [*]
+Fail --> [*]
+Killed --> [*]
+
+@enduml

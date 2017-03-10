@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scheduledemo.dao.JobMapper" >
+  <resultMap id="BaseResultMap" type="com.scheduledemo.model.Job" >
+    <id column="job_id" property="jobId" jdbcType="INTEGER" />
+    <result column="tas_id" property="tasId" jdbcType="INTEGER" />
+    <result column="str_id" property="strId" jdbcType="INTEGER" />
+    <result column="dea_id" property="deaId" jdbcType="INTEGER" />
+    <result column="pla_id" property="plaId" jdbcType="INTEGER" />
+    <result column="business_parameter" property="businessParameter" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="complete_time" property="completeTime" jdbcType="TIMESTAMP" />
+    <result column="estimate_complete_time" property="estimateCompleteTime" jdbcType="TIMESTAMP" />
+    <result column="estimate_longest_complete_time" property="estimateLongestCompleteTime" jdbcType="TIMESTAMP" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="fail_counter" property="failCounter" jdbcType="INTEGER" />
+    <result column="next_run_time" property="nextRunTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_by" property="lastUpdateBy" jdbcType="VARCHAR" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    job_id, tas_id, str_id, dea_id, pla_id, business_parameter, start_time, complete_time, 
+    estimate_complete_time, estimate_longest_complete_time, priority, fail_counter, next_run_time, 
+    status, remark, create_by, create_time, last_update_by, last_update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.scheduledemo.model.JobExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from job_job
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from job_job
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.scheduledemo.model.JobExample" >
+    delete from job_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.scheduledemo.model.Job" >
+    insert into job_job (job_id, tas_id, str_id, 
+      dea_id, pla_id, business_parameter, 
+      start_time, complete_time, estimate_complete_time, 
+      estimate_longest_complete_time, priority, 
+      fail_counter, next_run_time, status, 
+      remark, create_by, create_time, 
+      last_update_by, last_update_time)
+    values (#{jobId,jdbcType=INTEGER}, #{tasId,jdbcType=INTEGER}, #{strId,jdbcType=INTEGER}, 
+      #{deaId,jdbcType=INTEGER}, #{plaId,jdbcType=INTEGER}, #{businessParameter,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}, #{estimateCompleteTime,jdbcType=TIMESTAMP}, 
+      #{estimateLongestCompleteTime,jdbcType=TIMESTAMP}, #{priority,jdbcType=INTEGER}, 
+      #{failCounter,jdbcType=INTEGER}, #{nextRunTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateBy,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.scheduledemo.model.Job" >
+    insert into job_job
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="tasId != null" >
+        tas_id,
+      </if>
+      <if test="strId != null" >
+        str_id,
+      </if>
+      <if test="deaId != null" >
+        dea_id,
+      </if>
+      <if test="plaId != null" >
+        pla_id,
+      </if>
+      <if test="businessParameter != null" >
+        business_parameter,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="completeTime != null" >
+        complete_time,
+      </if>
+      <if test="estimateCompleteTime != null" >
+        estimate_complete_time,
+      </if>
+      <if test="estimateLongestCompleteTime != null" >
+        estimate_longest_complete_time,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="failCounter != null" >
+        fail_counter,
+      </if>
+      <if test="nextRunTime != null" >
+        next_run_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastUpdateBy != null" >
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        #{jobId,jdbcType=INTEGER},
+      </if>
+      <if test="tasId != null" >
+        #{tasId,jdbcType=INTEGER},
+      </if>
+      <if test="strId != null" >
+        #{strId,jdbcType=INTEGER},
+      </if>
+      <if test="deaId != null" >
+        #{deaId,jdbcType=INTEGER},
+      </if>
+      <if test="plaId != null" >
+        #{plaId,jdbcType=INTEGER},
+      </if>
+      <if test="businessParameter != null" >
+        #{businessParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estimateCompleteTime != null" >
+        #{estimateCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estimateLongestCompleteTime != null" >
+        #{estimateLongestCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="failCounter != null" >
+        #{failCounter,jdbcType=INTEGER},
+      </if>
+      <if test="nextRunTime != null" >
+        #{nextRunTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null" >
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.scheduledemo.model.JobExample" resultType="java.lang.Integer" >
+    select count(*) from job_job
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update job_job
+    <set >
+      <if test="record.jobId != null" >
+        job_id = #{record.jobId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tasId != null" >
+        tas_id = #{record.tasId,jdbcType=INTEGER},
+      </if>
+      <if test="record.strId != null" >
+        str_id = #{record.strId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deaId != null" >
+        dea_id = #{record.deaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.plaId != null" >
+        pla_id = #{record.plaId,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessParameter != null" >
+        business_parameter = #{record.businessParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.completeTime != null" >
+        complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.estimateCompleteTime != null" >
+        estimate_complete_time = #{record.estimateCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.estimateLongestCompleteTime != null" >
+        estimate_longest_complete_time = #{record.estimateLongestCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.priority != null" >
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.failCounter != null" >
+        fail_counter = #{record.failCounter,jdbcType=INTEGER},
+      </if>
+      <if test="record.nextRunTime != null" >
+        next_run_time = #{record.nextRunTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastUpdateBy != null" >
+        last_update_by = #{record.lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdateTime != null" >
+        last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update job_job
+    set job_id = #{record.jobId,jdbcType=INTEGER},
+      tas_id = #{record.tasId,jdbcType=INTEGER},
+      str_id = #{record.strId,jdbcType=INTEGER},
+      dea_id = #{record.deaId,jdbcType=INTEGER},
+      pla_id = #{record.plaId,jdbcType=INTEGER},
+      business_parameter = #{record.businessParameter,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      complete_time = #{record.completeTime,jdbcType=TIMESTAMP},
+      estimate_complete_time = #{record.estimateCompleteTime,jdbcType=TIMESTAMP},
+      estimate_longest_complete_time = #{record.estimateLongestCompleteTime,jdbcType=TIMESTAMP},
+      priority = #{record.priority,jdbcType=INTEGER},
+      fail_counter = #{record.failCounter,jdbcType=INTEGER},
+      next_run_time = #{record.nextRunTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      last_update_by = #{record.lastUpdateBy,jdbcType=VARCHAR},
+      last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scheduledemo.model.Job" >
+    update job_job
+    <set >
+      <if test="tasId != null" >
+        tas_id = #{tasId,jdbcType=INTEGER},
+      </if>
+      <if test="strId != null" >
+        str_id = #{strId,jdbcType=INTEGER},
+      </if>
+      <if test="deaId != null" >
+        dea_id = #{deaId,jdbcType=INTEGER},
+      </if>
+      <if test="plaId != null" >
+        pla_id = #{plaId,jdbcType=INTEGER},
+      </if>
+      <if test="businessParameter != null" >
+        business_parameter = #{businessParameter,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estimateCompleteTime != null" >
+        estimate_complete_time = #{estimateCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estimateLongestCompleteTime != null" >
+        estimate_longest_complete_time = #{estimateLongestCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="failCounter != null" >
+        fail_counter = #{failCounter,jdbcType=INTEGER},
+      </if>
+      <if test="nextRunTime != null" >
+        next_run_time = #{nextRunTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null" >
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scheduledemo.model.Job" >
+    update job_job
+    set tas_id = #{tasId,jdbcType=INTEGER},
+      str_id = #{strId,jdbcType=INTEGER},
+      dea_id = #{deaId,jdbcType=INTEGER},
+      pla_id = #{plaId,jdbcType=INTEGER},
+      business_parameter = #{businessParameter,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      estimate_complete_time = #{estimateCompleteTime,jdbcType=TIMESTAMP},
+      estimate_longest_complete_time = #{estimateLongestCompleteTime,jdbcType=TIMESTAMP},
+      priority = #{priority,jdbcType=INTEGER},
+      fail_counter = #{failCounter,jdbcType=INTEGER},
+      next_run_time = #{nextRunTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where job_id = #{jobId,jdbcType=INTEGER}
+  </update>
+</mapper>

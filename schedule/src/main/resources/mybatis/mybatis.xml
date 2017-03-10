@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+    <!-- 给实体Bean一个别名 -->
+    <!--<typeAlias alias="MapContainer" type="com.zblog.core.plugin.MapContainer" />
+    <typeAlias alias="PageModel" type="com.zblog.core.plugin.PageModel" />-->
+  </typeAliases>
+  <mappers>
+    <mapper resource="mybatis/mapper/TaskMapper.xml" />
+    <mapper resource="mybatis/mapper/SchedulerMapper.xml" />
+    <mapper resource="mybatis/mapper/SchedulerMapperExt.xml" />
+    <mapper resource="mybatis/mapper/JobMapper.xml" />
+    <mapper resource="mybatis/mapper/JobErrorMapper.xml" />
+  </mappers>
+</configuration>

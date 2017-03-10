@@ -1,0 +1,47 @@
+@startuml
+
+node "GM-dropship-schedule"{
+    [Task Manage Scheduler] as TMS
+    [Manage Job Scheduler] as MJS
+    [Business Scheduler] as BSC
+    [Process Job Result Listener] as PJR
+    [Manage API Callable Count Scheduler] as MAC
+}
+
+node "GM-bvo"{
+    [BVO]
+}
+
+node "GM-dropship-service" {
+    [Business Service] as BSE
+
+    BSC ->  BSE
+    BVO -> BSE
+}
+
+node "GM-dropship-sync"{
+    [Business Consumer] as BCO
+}
+
+node RabbitMQ{
+    MJS -> [Queue]
+    BCO -> [Queue]
+    PJR -> [Queue]
+}
+
+node Redis{
+    MAC -> [API Call Count]
+    BCO -> [API Call Count]
+}
+
+database "Mysql"{
+    [job_job] <<table>> as JOB
+    [sch_scheduler] <<table>> as SCH
+
+    MJS -> JOB
+    BSE -> JOB
+    BCO -> JOB
+    TMS -> SCH
+}
+
+@enduml

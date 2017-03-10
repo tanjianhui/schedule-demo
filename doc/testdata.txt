@@ -1,0 +1,21 @@
+"{\"jobTaskType\":1,\"jobTaskId\":null,\"strId\":1,\"developerId\":null,\"plataeformType\":1,\"business\":\"1\",\"status\":null}"
+
+
+Message 1
+
+The server reported 1 messages remaining.
+
+Exchange	amqpExchange
+Routing Key	INVENTORY_API_QUEUE_KEY
+Redelivered	●
+Properties
+priority:	0
+delivery_mode:	2
+headers:
+MODE:	INVENTORY
+KEY:	com.gm.dropship.bean.request.GmRequestRefreshInventoryMessage
+content_type:	application/octet-stream
+Payload
+148 bytes
+Encoding: string
+{"header":{"sendType":"2","receiver":"system","sender":"system","sendDate":1489050277311},"refreshInventory":{"proId":null,"strId":null,"qty":null}}

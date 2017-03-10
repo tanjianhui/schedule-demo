@@ -1,0 +1,45 @@
+@startuml
+
+autonumber "<b>(<u>###</u>)"
+
+actor Timer
+participant SchedulingManagerScheduler
+participant SchedulerManager
+participant QuartzScheduler
+participant SchedulerService
+participant SchedulerMapper
+database MySql
+
+note left of Timer
+    定时器
+    每分钟执行一次
+end note
+
+Timer -> SchedulingManagerScheduler : 触发调度管理器执行
+
+SchedulingManagerScheduler -> SchedulerManager : 执行调度管理
+
+
+
+SchedulerManager -> SchedulerService : 获取未生效的调度器列表
+
+SchedulerService -> SchedulerMapper : 获取未生效的调度器列表
+
+
+SchedulerMapper -> MySql : 查询未生效的调度器列表
+
+loop 遍历未生效调度器列表
+    alt case 新增
+        SchedulerManager -> QuartzScheduler : 新增调度器
+    else case 暂停
+        SchedulerManager -> QuartzScheduler : 暂停调度器
+    else case 恢复
+        SchedulerManager -> QuartzScheduler : 恢复调度器
+    end
+end
+
+SchedulerManager -> SchedulerService : 更新未生效的调度器状态为已生效
+SchedulerService -> SchedulerMapper : 更新未生效的调度器状态为已生效
+SchedulerMapper -> MySql : 更新未生效的调度器状态为已生效
+
+@enduml

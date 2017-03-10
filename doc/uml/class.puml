@@ -1,0 +1,33 @@
+@startuml
+
+package GM-dropship-schedule <<node>>{
+
+    class JobDetailManager{
+        manageJob()
+    }
+    class TaskManageScheduler
+    class JobMonitorScheduler
+
+    class SchedulerService
+    class JobMonitorService
+
+    JobMonitorScheduler --> JobMonitorService
+    TaskManageScheduler --> JobDetailManager
+    JobDetailManager --> SchedulerService
+}
+
+package GM-dropship-dao <<node>>{
+    class SchedulerMapper
+    class JobMonitorMapper
+
+    SchedulerService -> SchedulerMapper
+    JobMonitorService -> JobMonitorMapper
+}
+
+package Quartz.jar <<node>>{
+    interface Scheduler
+
+    JobDetailManager -> Scheduler
+}
+
+@enduml

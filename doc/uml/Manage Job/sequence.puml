@@ -1,0 +1,50 @@
+@startuml
+autonumber "<b>(<u>###</u>)"
+
+actor Timer
+participant ManageJobScheduler
+participant JobMonitorService
+participant JobMonitorMapper
+database MySql
+actor RabbitMQ
+
+note left of Timer
+    定时器
+    每分钟执行一次
+end note
+
+Timer -> ManageJobScheduler : 管理作业任务执行
+ManageJobScheduler --> RabbitMQ : 发送执行作业管理通知
+JobMonitorService --> RabbitMQ : 监听执行作业管理通知
+
+==处理超时作业==
+
+JobMonitorService -> JobMonitorMapper : 将预期最迟完成时间小于当前时间\n且状态为处理中的作业状态改为已超时
+
+JobMonitorMapper -> MySql : 执行状态更新
+
+==获取并分发待执行的作业==
+JobMonitorService -> JobMonitorMapper : 获取状态为Initial、Processing、Timeout，\n且下次执行时间<=当前时间的任务
+JobMonitorService -> JobMonitorService : 将作业按开发者账号分组
+
+loop 遍历分组
+    alt eBay开发者账号
+        JobMonitorService -> JobMonitorService : 获取分组中状态为Processing或\nTimeout的任务数量（N1）
+        JobMonitorService -> JobMonitorService : 根据开发者账号最大并发数（N2）与\nN1计算可处理且状态为Initial的任务数（N3）\nN2-N1=N3
+        alt N3 > 0 && 状态为Inital的作业数（N4） > 0
+            JobMonitorService -> JobMonitorService : 从分组作业列表中取出max(N3,N4)个\n优先级最高的作业列表（L）
+
+            loop 遍历L
+                JobMonitorService -> JobMonitorMapper : 修改状态为Processing
+                JobMonitorMapper -> MySql : 更新数据
+                JobMonitorService --> RabbitMQ : 发送作业执行通知消息
+            end
+        end
+    else amazon开发者账号
+        JobMonitorService --> RabbitMQ : 发送作业执行通知消息
+    end
+end
+
+JobMonitorService -> JobMonitorService : 等待5秒
+
+@enduml

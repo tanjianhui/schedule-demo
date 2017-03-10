@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd"
+	default-lazy-init="false">
+
+	<rabbit:connection-factory id="connectionFactory" host="dev.mysvr.com" port="35003" username="guest" password="guest" />
+
+	<rabbit:queue id="queueForEbayDeveloper01" name="queueForEbayDeveloper01" auto-declare="true" />
+	<rabbit:queue id="queueForEbayDeveloper02" name="queueForEbayDeveloper02" auto-declare="true" />
+
+	<rabbit:listener-container connection-factory="connectionFactory" max-concurrency="1" concurrency="1">
+		<rabbit:listener ref="jobConsumer" method="listen" queues="queueForEbayDeveloper01,queueForEbayDeveloper02" />
+		<!--<rabbit:listener ref="jobConsumer" method="listen1" queues="queueForEbayDeveloper01,queueForEbayDeveloper02" />-->
+	</rabbit:listener-container>
+</beans>

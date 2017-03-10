@@ -1,0 +1,23 @@
+@startuml
+
+autonumber "<b>(<u>###</u>)"
+
+actor RabbitMQ
+participant "GM-dropship-schedule" as GDS
+database MySql
+
+RabbitMQ --> GDS : 监听作业结果消息
+
+alt 执行成功
+    GDS -> MySql : 更新作业状态为Done
+else 异常
+    alt 任务已配置重试规则 && 作业的已失败次数复合重试规则
+        GDS -> MySql : 更新作业状态为Initial，并将已失败次数加1
+    else
+        GDS -> MySql : 更新作业状态为Fail
+    end
+end
+
+GDS --> RabbitMQ : 发送执行作业管理通知
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Task <<table>>{
+    id int not null default 1 comment '1234',
+    name
+    --
+    pk(id)
+    uk(
+    fk
+    idx
+}
+
+class Schedule <<table>>{
+    id [pk]
+    task_id [fk]
+}
+
+Schedule "n" --> "1..n" Task : fk:task_id->id
+
+hide <<table>> circle
+'show <<table>> members
+'hide <<table>> methods
+
+@enduml
