@@ -21,10 +21,10 @@ public class StockSyncScheduler {
     public void execute(){
         logger.info("StockSyncScheduler.execute Start...");
 
-        ResponseEntity<String> str = new RestTemplate().postForEntity(
+        /*ResponseEntity<String> str = new RestTemplate().postForEntity(
                 "http://10.10.28.228:8080/GM-dropship-service/gm/dropship/salesorder/getTest",
                 getPost(String.valueOf("{\"requestContext\":{\"proId\":\"617\",\"qty\":\"1\"}}")),
-                String.class);
+                String.class);*/
 
         logger.info("StockSyncScheduler.execute Complete...");
     }

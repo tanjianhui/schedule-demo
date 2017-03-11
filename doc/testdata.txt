@@ -19,3 +19,20 @@ Payload
 148 bytes
 Encoding: string
 {"header":{"sendType":"2","receiver":"system","sender":"system","sendDate":1489050277311},"refreshInventory":{"proId":null,"strId":null,"qty":null}}
+
+The server reported 2 messages remaining.
+
+Exchange	amqpExchange
+Routing Key	JOB_API_QUEUE_KEY
+Redelivered	●
+Properties
+priority:	0
+delivery_mode:	2
+headers:
+__TypeId__:	java.lang.String
+content_encoding:	UTF-8
+content_type:	application/json
+Payload
+162 bytes
+Encoding: string
+"{\"jobTaskType\":1,\"jobTaskId\":null,\"strId\":84,\"developerId\":123,\"plataeformType\":2,\"business\":\"{\\\"proId\\\":578,\\\"qty\\\":12}\",\"status\":null}"

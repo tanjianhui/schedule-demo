@@ -2,6 +2,7 @@ package com.scheduledemo.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -20,16 +21,12 @@ public class JobManagingScheduler {
     private static final Logger logger = LoggerFactory.getLogger(JobManagingScheduler.class);
 
     @Autowired
-    private RabbitTemplate manageJobTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     // TODO 增加切面，记录调度器执行情况（执行中，成功，失败）
     public void execute(){
-        logger.info("StockSyncScheduler.execute Start...");
-
-        manageJobTemplate.convertAndSend("");
-
-
-        logger.info("StockSyncScheduler.execute Complete...");
+        rabbitTemplate.convertAndSend("JOB_MANAGE_API_QUEUE_KEY",
+                MessageBuilder.withBody("MANAGE_JOB".getBytes()));
     }
 
 }

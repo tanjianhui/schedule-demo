@@ -16,6 +16,9 @@
 
 	<!-- 作业生成器队列 -->
 	<rabbit:queue id="JOB_API_QUEUE" name="JOB_API_QUEUE" auto-declare="true" />
+	<rabbit:queue id="JOB_MANAGE_API_QUEUE" name="JOB_MANAGE_API_QUEUE" auto-declare="true" />
+	<rabbit:queue id="JOB_RETURN_API_QUEUE" name="JOB_RETURN_API_QUEUE" auto-declare="true" />
+	<rabbit:queue id="INVENTORY_API_QUEUE" name="INVENTORY_API_QUEUE" auto-declare="true" />
 
 	<!--
 	######################### Producer #########################
@@ -25,10 +28,15 @@
 	<rabbit:direct-exchange name="amqpExchange">
 		<rabbit:bindings>
 			<rabbit:binding queue="JOB_API_QUEUE" key="JOB_API_QUEUE_KEY"></rabbit:binding>
+			<rabbit:binding queue="JOB_MANAGE_API_QUEUE" key="JOB_MANAGE_API_QUEUE_KEY"></rabbit:binding>
+			<rabbit:binding queue="JOB_RETURN_API_QUEUE" key="JOB_RETURN_API_QUEUE_KEY"></rabbit:binding>
+			<rabbit:binding queue="INVENTORY_API_QUEUE" key="INVENTORY_API_QUEUE_KEY"></rabbit:binding>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
 	<!-- 作业生成 template -->
 	<rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="amqpExchange"/>
+
+	<rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="amqpExchange"/>
 
 	<!--  -->
 	<!--<rabbit:fanout-exchange name="fanoutExchange">
@@ -53,7 +61,8 @@
 	######################### Consumer #########################
 	-->
 
-	<!--<rabbit:listener-container connection-factory="connectionFactory" max-concurrency="1" concurrency="1">
-		<rabbit:listener ref="newJobConsumer" method="listen" queues="new-job-queue" />
-	</rabbit:listener-container>-->
+	<rabbit:listener-container connection-factory="connectionFactory" max-concurrency="1" concurrency="1">
+		<rabbit:listener ref="newJobConsumer" method="onMessage" queues="JOB_API_QUEUE" />
+		<rabbit:listener ref="manageJobConsumer" method="onMessage" queues="JOB_MANAGE_API_QUEUE" />
+	</rabbit:listener-container>
 </beans>

@@ -1,0 +1,22 @@
+public class GmMessageMode {
+ public static String PRODUCT = "PRODUCT";
+ public static String ORDER = "ORDER";
+ public static String SHIPPING = "SHIPPING";// 物流
+ public static String INVENTORY = "INVENTORY";
+ public static String NOTIFY = "NOTIFY";
+ public static String REAL_TIME = "REAL_TIME";
+ public static String LOC_EBAY = "LOC_EBAY";
+ public static String LOC_AMAZON = "LOC_AMAZON";
+ public static String ORDER_RETURN = "ORDER_RETURN";
+ public static String ORDER_CANCELED = "ORDER_CANCELED";
+ public static String ORDER_CANCELED_RETURN = "ORDER_CANCELED_RETURN";
+ public static String ORDER_INVENTORY = "ORDER_INVENTORY";
+ public static String SHELVES_PRODUCT = "SHELVES_PRODUCT";
+ public static String JOB = "JOB";
+ public static String JOB_RETURN = "JOB_RETURN";
+ //本地使用
+ public static String PRODUCT_IMAGE = "PRODUCT_IMAGE";
+ public static String RELATIONSHIP = "RELATIONSHIP";
+ public static String ORDER_FREIGHT = "ORDER_FREIGHT";
+ public static String PRODUCT_NUMBER = "PRODUCT_NUMBER";
+ public static String PRODUCT_PRICE = "PRODUCT_PRICE";

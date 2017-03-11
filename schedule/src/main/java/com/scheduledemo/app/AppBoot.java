@@ -29,16 +29,24 @@ public class AppBoot implements EmbeddedServletContainerCustomizer {
 //        container.setPort(Integer.parseInt(System.getProperty("http.port")));
         container.setContextPath("/mywebapp");
 
-        int port;
-        for(int i = 0; i < 10; i++) {
-            port = new Random().nextInt(10000) + 10000;
-            if(this.checkPortAvailable(port)){
-                container.setPort(port);
+        int port = 0;
+        try {
+            port = Integer.parseInt(System.getProperty("hostPort"));
+            container.setPort(port);
+            return;
+        }catch (NumberFormatException e){
+            logger.info("Not found 'hostPort' parameter, to use random port");
+
+            for(int i = 0; i < 10; i++) {
+                port = new Random().nextInt(10000) + 10000;
+                if(this.checkPortAvailable(port)){
+                    container.setPort(port);
 //                logger.info("Url : http://localhost:{}/mywebapp/", port);
-                return;
+                    return;
+                }
             }
+            System.exit(1);
         }
-        System.exit(1);
     }
 
     private boolean checkPortAvailable(int port) {

@@ -13,7 +13,7 @@ public class NewJobConsumerTest {
     private static final Logger logger = LoggerFactory.getLogger(NewJobConsumerTest.class);
     @Test
     public void test(){
-        JSONObject jsonObject = JSON.parseObject("{\"refreshInventory\":{\"proId\":null,\"strId\":null,\"qty\":null}}");
+        JSONObject jsonObject = JSON.parseObject("{\"jobTaskType\":1,\"jobTaskId\":null,\"strId\":84,\"developerId\":123,\"plataeformType\":2,\"business\":null,\"status\":null,\"refreshInventory\":{\"proId\":578,\"strId\":null,\"qty\":12}}");
 
         logger.info("{}", jsonObject);
     }

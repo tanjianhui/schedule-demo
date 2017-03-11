@@ -4,6 +4,7 @@ package com.scheduledemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.scheduledemo.mq.producer.ExecuteJobProducer;
+import com.scheduledemo.schedule.JobManagingScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -23,6 +24,9 @@ public class SampleController {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private JobManagingScheduler jobManagingScheduler;
 
     @RequestMapping("/")
     @ResponseBody
@@ -83,5 +87,13 @@ public class SampleController {
         logger.info("QueryString: {}", request.getQueryString());
 
         response.sendRedirect(request.getContextPath() + "/sayHello");
+    }
+
+    @RequestMapping("/execJob")
+    @ResponseBody
+    public String execJob(){
+        jobManagingScheduler.execute();
+
+        return "Execute Job!";
     }
 }

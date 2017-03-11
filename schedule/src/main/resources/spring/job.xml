@@ -8,6 +8,16 @@
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <!---->
+    <!--<util:list id="apiCallableCountMetadataList" list-class="java.util.ArrayList">
+        <bean class="com.scheduledemo.schedule.ManageApiCallableCountScheduler.ApiCallableCountMetadata">
+            <property name="counterPrefix" value="GM_AMAZON_INVENTORY"/>
+            <property name="resumeIntervalInSecond" value="120" />
+        </bean>>
+    </util:list>-->
+
+
+
     <!--<util:map id="JobType" map-class="java.util.HashMap">
         <entry key="1" value=""
     </util:map>

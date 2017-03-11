@@ -8,6 +8,8 @@ import com.scheduledemo.mq.producer.ExecuteJobProducer;
 import com.scheduledemo.service.JobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +19,7 @@ import java.util.*;
  * Created by tanjianhui on 2017/3/8.
  */
 @Component("manageJobConsumer")
-public class ManageJobConsumer {
+public class ManageJobConsumer implements MessageListener {
     private static final Logger logger = LoggerFactory.getLogger(ManageJobConsumer.class);
 
     @Autowired
@@ -26,7 +28,7 @@ public class ManageJobConsumer {
     @Autowired
     private ExecuteJobProducer executeJobProducer;
 
-    public void listen(String message){
+    public void handle(String message){
         Date now = new Date();
 
         // 处理超时作业
@@ -115,24 +117,27 @@ public class ManageJobConsumer {
         }
 
         public void addRunnableJob(Job job){
-            if(runnableJobList.isEmpty()){
-                runnableJobList.add(job);
-            }else {
-                for (Job j : runnableJobList) {
-                    if (j.getPriority().compareTo(job.getPriority()) < 0){
-                        runnableJobList.add(runnableJobList.indexOf(j),job);
-                        return ;
-                    }
+            for (Job j : runnableJobList) {
+                if (j.getPriority().compareTo(job.getPriority()) < 0){
+                    runnableJobList.add(runnableJobList.indexOf(j),job);
+                    return ;
                 }
             }
+            runnableJobList.add(job);
         }
 
         public List<Job> getRunnableJobList(){
             int runnableJobCount = maxRunnableJobCount - runningJobCount;
             if(runnableJobCount > 0){
-                return runnableJobList.subList(0, runnableJobCount);
+                return runnableJobList.subList(0,
+                        runnableJobCount < runnableJobList.size() ? runnableJobCount : runnableJobList.size());
             }
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public void onMessage(Message message) {
+        this.handle(new String(message.getBody()));
     }
 }

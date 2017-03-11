@@ -14,9 +14,9 @@ create table dea_developer_account
   concurrency int not null default 0 comment '并发数限制 0-无限制',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key(dea_id)
 ) engine=innodb comment '开发者账号';
@@ -28,9 +28,9 @@ create table sda_store_developer_account
   dea_id int not null comment '开发者账号主键',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key(sda_id),
   unique(str_id)
@@ -48,9 +48,9 @@ create table tas_task
   remark varchar(100) comment '备注',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key(tas_id)
 ) engine=innodb comment '任务';
@@ -66,9 +66,9 @@ create table sch_scheduler
   remark varchar(100) comment '备注',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key (sch_id)
 ) engine=innodb comment '调度器';
@@ -81,9 +81,9 @@ create table scl_scheduler_log
   error_message varchar(2000) comment '错误信息',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key (scl_id)
 ) engine=innodb comment '调度器执行日志';
@@ -96,20 +96,20 @@ create table job_job
   dea_id int not null comment '开发者账号主键',
   pla_id int not null comment '平台主键',
   business_parameter varchar(2000) comment '业务参数 格式：JSON',
-  start_time datetime not null comment '开始时间',
-  complete_time datetime comment '完成时间',
-  estimate_complete_time datetime not null comment '预计完成时间',
-  estimate_longest_complete_time datetime not null comment '最大预计完成时间',
+  start_time timestamp not null comment '开始时间',
+  complete_time timestamp comment '完成时间',
+  estimate_complete_time timestamp not null comment '预计完成时间',
+  estimate_longest_complete_time timestamp not null comment '最大预计完成时间',
   priority int not null comment '优先级 取值范围1-10，1最低，10最高，默认为5。',
   fail_counter int not null comment '失败次数',
-  next_run_time datetime not null comment '下次执行时间 默认为创建时间',
+  next_run_time timestamp not null comment '下次执行时间 默认为创建时间',
   status varchar(1) not null comment '状态 1-New 2-Initial 3-Processing 4-Timeout 5-Done 6-Fail 7-Killed',
   remark varchar(2000) comment '备注',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key (job_id)
 ) engine=innodb comment '作业';
@@ -121,9 +121,9 @@ create table joe_job_error
   error_message varchar(2000) comment '错误信息',
 
   create_by varchar(20) not null comment '创建人',
-  create_time datetime not null comment '创建时间',
+  create_time timestamp not null comment '创建时间',
   last_update_by varchar(20) comment '最后修改人',
-  last_update_time datetime comment '最后修改时间',
+  last_update_time timestamp comment '最后修改时间',
 
   primary key(joe_id)
 ) engine=innodb comment '作业错误';
