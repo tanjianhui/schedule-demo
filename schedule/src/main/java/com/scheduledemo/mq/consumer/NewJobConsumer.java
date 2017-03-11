@@ -57,8 +57,8 @@ public class NewJobConsumer implements MessageListener {
         job.setPlaId(plataeformType);
         job.setBusinessParameter("{\"" + businessName + "\":" + business + "}");
         job.setStartTime(new Date());
-        job.setEstimateCompleteTime(job.getStartTime());
-        job.setEstimateLongestCompleteTime(job.getStartTime());
+        job.setEstimateCompleteTime(new Date(job.getStartTime().getTime() + task.getEstimateCostTime() * 60000));
+        job.setEstimateLongestCompleteTime(new Date(job.getStartTime().getTime() + task.getEstimateMaxCostTime() * 60000));
         job.setPriority(task.getPriority());
         job.setFailCounter(0);
         job.setNextRunTime(job.getStartTime());
