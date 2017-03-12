@@ -6,4 +6,5 @@
     set status = '4'
     where estimate_longest_complete_time %lt;= #{now,jdbcType=TIMESTAMP}
   </update>
+
 </mapper>

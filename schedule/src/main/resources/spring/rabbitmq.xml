@@ -64,5 +64,6 @@
 	<rabbit:listener-container connection-factory="connectionFactory" max-concurrency="1" concurrency="1">
 		<rabbit:listener ref="newJobConsumer" method="onMessage" queues="JOB_API_QUEUE" />
 		<rabbit:listener ref="manageJobConsumer" method="onMessage" queues="JOB_MANAGE_API_QUEUE" />
+		<rabbit:listener ref="processJobResultConsumer" method="onMessage" queues="JOB_RETURN_API_QUEUE" />
 	</rabbit:listener-container>
 </beans>

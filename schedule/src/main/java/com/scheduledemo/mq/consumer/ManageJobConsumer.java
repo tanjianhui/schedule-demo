@@ -79,6 +79,8 @@ public class ManageJobConsumer implements MessageListener {
                 Job updateStatusJob = new Job();
                 updateStatusJob.setJobId(job.getJobId());
                 updateStatusJob.setStatus(JobStatus.INITIAL.getKey());
+                updateStatusJob.setLastUpdateBy("admin");
+                updateStatusJob.setLastUpdateTime(new Date());
                 jobService.updateByPrimaryKeySelectiveRN(updateStatusJob);
 
                 // 发送消息

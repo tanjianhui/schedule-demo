@@ -8,6 +8,10 @@
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <util:map id="task">
+
+    </util:map>
+
     <!---->
     <!--<util:list id="apiCallableCountMetadataList" list-class="java.util.ArrayList">
         <bean class="com.scheduledemo.schedule.ManageApiCallableCountScheduler.ApiCallableCountMetadata">

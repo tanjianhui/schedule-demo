@@ -38,6 +38,7 @@ public class ExecuteJobProducer {
         header.put("receiver", "system");
         header.put("sender", "system");
         header.put("sendDate", System.currentTimeMillis());
+        header.put("jobTaskId", job.getJobId());
 
         logger.info("businessParameter : {}", job.getBusinessParameter());
         JSONObject jsonObject = JSON.parseObject(job.getBusinessParameter());
@@ -52,6 +53,5 @@ public class ExecuteJobProducer {
                     MessageBuilder.withBody(jsonString.getBytes(Charset.defaultCharset()))
                             .setHeader("KEY", "com.gm.dropship.bean.request.GmRequestRefreshInventoryMessage")
                             .setHeader("MODE", "INVENTORY").build());
-            /*rabbitTemplate.convertAndSend("INVENTORY_API_QUEUE_KEY", jsonString);*/
     }
 }

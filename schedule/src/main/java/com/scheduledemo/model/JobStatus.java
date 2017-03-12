@@ -10,7 +10,8 @@ public enum JobStatus {
     TIMEOUT("4"),
     DONE("5"),
     FAIL("6"),
-    KILLED("7");
+    KILLED("7"),
+    NONE("NONE");
 
     private String key;
 
@@ -20,5 +21,28 @@ public enum JobStatus {
 
     public String getKey(){
         return this.key;
+    }
+
+    public static JobStatus getByKey(String key){
+        JobStatus[] jobStatusArray = JobStatus.values();
+        for(JobStatus jobStatus : jobStatusArray){
+            if(jobStatus.getKey().equals(key)){
+                return jobStatus;
+            }
+        }
+        return NONE;
+    }
+
+    public Boolean checkStatus(String key){
+        return this.getKey().equals(key);
+    }
+
+    public static Boolean checkStatus(String key, JobStatus[] jobStatuses){
+        for(JobStatus jobStatus : jobStatuses){
+            if(jobStatus.getKey().equals(key)){
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
     }
 }

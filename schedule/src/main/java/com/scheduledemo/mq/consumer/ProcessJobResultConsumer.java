@@ -11,6 +11,8 @@ import com.scheduledemo.service.JobService;
 import com.scheduledemo.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,17 +23,28 @@ import java.util.List;
  * Created by tanjianhui on 2017/3/8.
  */
 @Component("processJobResultConsumer")
-public class ProcessJobResultConsumer {
+public class ProcessJobResultConsumer implements MessageListener{
     private static final Logger logger = LoggerFactory.getLogger(ProcessJobResultConsumer.class);
 
     @Autowired
     private JobService jobService;
 
-    public void listen(String message){
-        // TODO 成功，更新作业状态未Done
+    @Override
+    public void onMessage(Message message) {
+        String messageBody = new String(message.getBody());
+        logger.info("消息内容：{}", messageBody);
 
-        // TODO 失败，重试或更新状态为失败
+        JSONObject jsonObject = JSON.parseObject(new String(message.getBody()));
 
-        // TODO 更新作业结果后，通知作业管理流程
+        Integer jobId = jsonObject.getInteger("jobTaskId");
+        String status = jsonObject.getInteger("status").toString();
+        String errorMessage = jsonObject.getString("errorMessage");
+
+        Job record  = new Job();
+        record.setJobId(jobId);
+        record.setStatus(status.toString());
+        record.setRemark(errorMessage);
+
+        jobService.processJobResult(record);
     }
 }

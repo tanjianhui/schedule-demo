@@ -16,6 +16,7 @@ import org.springframework.amqp.core.MessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,9 @@ public class NewJobConsumer implements MessageListener {
             // 如当前存在同任务编号和店铺编号，且状态为New、Initial、Processing和Timeount的作业
             // 则不执行，直接将作业状态置为Done，并记录相关信息
             JobExample jobExample = new JobExample();
-            jobExample.createCriteria().andTasIdEqualTo(job.getTasId()).andStrIdEqualTo(job.getStrId());
+            jobExample.createCriteria().andTasIdEqualTo(job.getTasId()).andStrIdEqualTo(job.getStrId())
+                    .andStatusIn(Arrays.asList(
+                            new String[]{JobStatus.NEW.getKey(), JobStatus.INITIAL.getKey(), JobStatus.PROCESSING.getKey()}));
             List<Job> duplicateJobList = jobService.selectByExample(jobExample);
             if(!duplicateJobList.isEmpty()){
                 StringBuilder remark = new StringBuilder();

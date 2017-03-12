@@ -134,7 +134,9 @@ DELETE FROM tas_task;
 
 INSERT INTO tas_task
 (name, estimate_cost_time, estimate_max_cost_time, priority, concurrency, retry_rule, remark, create_by, create_time)
-VALUES ('库存同步', 5, 10, 5, '0', '', '', 'admin', current_timestamp);
+VALUES ('库存同步', 5, 10, 5, '0',
+        '[{"failCountFloor":1,"failCountUpper":3,"retryInterval":1},{"failCountFloor":4,"failCountUpper":6,"retryInterval":5},{"failCountFloor":7,"failCountUpper":9,"retryInterval":10}]',
+        '', 'admin', current_timestamp);
 
 DELETE FROM sch_scheduler;
 
