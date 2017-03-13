@@ -16,6 +16,7 @@
         <property name="triggers">
             <list>
                 <ref local="scheduleManagingTrigger" />
+                <ref local="jobManagingTrigger" />
             </list>
         </property>
         <property name="waitForJobsToCompleteOnShutdown" value="true"></property>
@@ -23,6 +24,7 @@
         <property name="overwriteExistingJobs" value="false"></property>
     </bean>
 
+    <!-- 调度管理 -->
     <bean id="scheduleManagingJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
         <property name="concurrent" value="false" />
         <property name="targetBean" value="scheduleManagingScheduler" />
@@ -34,6 +36,19 @@
         <property name="jobDetail" ref="scheduleManagingJobDetail"></property>
     </bean>
 
+    <!-- 作业管理 -->
+    <bean id="jobManagingJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="jobManagingScheduler" />
+        <property name="targetMethod" value="execute" />
+        <property name="durable" value="true" />
+    </bean>
+    <bean id="jobManagingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="cronExpression" value="0 * * * * ?" />
+        <property name="jobDetail" ref="jobManagingJobDetail"></property>
+    </bean>
+
+    <!-- 库存同步 -->
     <bean id="stockSyncJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
         <property name="concurrent" value="false" />
         <property name="targetBean" value="stockSyncScheduler" />

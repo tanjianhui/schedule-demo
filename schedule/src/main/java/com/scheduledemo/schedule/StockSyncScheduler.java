@@ -2,6 +2,7 @@ package com.scheduledemo.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -17,16 +18,14 @@ import org.springframework.web.client.RestTemplate;
 public class StockSyncScheduler {
     private static final Logger logger = LoggerFactory.getLogger(StockSyncScheduler.class);
 
+    @Value("${stocksync.job.url}")
+    private String jobUrl;
+
     // TODO 增加切面，记录调度器执行情况（执行中，成功，失败）
     public void execute(){
-        logger.info("StockSyncScheduler.execute Start...");
-
-        /*ResponseEntity<String> str = new RestTemplate().postForEntity(
-                "http://10.10.28.228:8080/GM-dropship-service/gm/dropship/salesorder/getTest",
-                getPost(String.valueOf("{\"requestContext\":{\"proId\":\"617\",\"qty\":\"1\"}}")),
-                String.class);*/
-
-        logger.info("StockSyncScheduler.execute Complete...");
+        ResponseEntity<String> str = new RestTemplate().postForEntity(jobUrl,
+                getPost(String.valueOf("{}")),
+                String.class);
     }
 
     public static HttpEntity<String> getPost(String json) {
