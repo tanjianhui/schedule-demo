@@ -14,11 +14,11 @@
 	######################### Queue #########################
 	-->
 
-	<!-- 作业生成器队列 -->
 	<rabbit:queue id="JOB_API_QUEUE" name="JOB_API_QUEUE" auto-declare="true" />
 	<rabbit:queue id="JOB_MANAGE_API_QUEUE" name="JOB_MANAGE_API_QUEUE" auto-declare="true" />
 	<rabbit:queue id="JOB_RETURN_API_QUEUE" name="JOB_RETURN_API_QUEUE" auto-declare="true" />
 	<rabbit:queue id="INVENTORY_API_QUEUE" name="INVENTORY_API_QUEUE" auto-declare="true" />
+	<rabbit:queue id="AMAZON_FEED_API_QUEUE" name="AMAZON_FEED_API_QUEUE" auto-declare="true" />
 
 	<!--
 	######################### Producer #########################
@@ -31,6 +31,7 @@
 			<rabbit:binding queue="JOB_MANAGE_API_QUEUE" key="JOB_MANAGE_API_QUEUE_KEY"></rabbit:binding>
 			<rabbit:binding queue="JOB_RETURN_API_QUEUE" key="JOB_RETURN_API_QUEUE_KEY"></rabbit:binding>
 			<rabbit:binding queue="INVENTORY_API_QUEUE" key="INVENTORY_API_QUEUE_KEY"></rabbit:binding>
+			<rabbit:binding queue="AMAZON_FEED_API_QUEUE" key="AMAZON_FEED_API_QUEUE_KEY"></rabbit:binding>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
 	<!-- 作业生成 template -->

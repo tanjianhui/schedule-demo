@@ -22,22 +22,4 @@
         <entry key="1" value-ref="stockSyncJobMessageContext" />
     </util:map>
 
-    <!---->
-    <!--<util:list id="apiCallableCountMetadataList" list-class="java.util.ArrayList">
-        <bean class="com.scheduledemo.schedule.ManageApiCallableCountScheduler.ApiCallableCountMetadata">
-            <property name="counterPrefix" value="GM_AMAZON_INVENTORY"/>
-            <property name="resumeIntervalInSecond" value="120" />
-        </bean>>
-    </util:list>-->
-
-
-
-    <!--<util:map id="JobType" map-class="java.util.HashMap">
-        <entry key="1" value=""
-    </util:map>
-
-    <bean id="jobContext" class="java.util.HashMap">
-        <property name="jobTypeList"></property>
-    </bean>-->
-
 </beans>

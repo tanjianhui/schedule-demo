@@ -10,7 +10,7 @@ public enum OperationType {
     PAUSE("2"),
     /** 恢复 */
     RESUME("3"),
-    /** 恢复 */
+    /** 删除 */
     DELETE("4"),
     /** 其他 */
     Other("9");

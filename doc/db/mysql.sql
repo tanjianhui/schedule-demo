@@ -58,7 +58,7 @@ create table tas_task
 create table sch_scheduler
 (
   sch_id int not null auto_increment comment '主键',
-  tas_id int not null comment '任务主键',
+  tas_id int comment '任务主键',
   operation varchar(1) not null comment '操作类型 1-新增 2-暂停 3-恢复',
   name varchar(50) not null comment '名称',
   cron_expression varchar(100) not null comment 'cron表达式',
@@ -131,15 +131,53 @@ create table joe_job_error
 
 
 DELETE FROM tas_task;
-
 INSERT INTO tas_task
 (name, estimate_cost_time, estimate_max_cost_time, priority, concurrency, retry_rule, remark, create_by, create_time)
 VALUES ('库存同步', 5, 10, 5, '0',
         '[{"failCountFloor":1,"failCountUpper":3,"retryInterval":1},{"failCountFloor":4,"failCountUpper":6,"retryInterval":5},{"failCountFloor":7,"failCountUpper":9,"retryInterval":10}]',
         '', 'admin', current_timestamp);
 
-DELETE FROM sch_scheduler;
-
+DELETE FROM sch_scheduler where name = 'stockSync';
 INSERT INTO sch_scheduler
 (tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
 VALUES (1, '1', 'stockSync', '0 0/15 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonCheck';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonCheck', '0 * * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonSubmitProduct';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonSubmitProduct', '0 0/2 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonSubmitProductImage';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonSubmitProductImage', '0 0/2 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonSubmitProductRelationship';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonSubmitProductRelationship', '0 0/2 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonSubmitInventory';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonSubmitInventory', '0 0/2 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonSubmitFulfillment';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonSubmitFulfillment', '0 0/2 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonRecoverExecution';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonRecoverExecution', '0 0/2 * * * ?', '0', '', 'admin', current_timestamp);
+
+DELETE FROM sch_scheduler where name = 'amazonRecoverExecutionTimeBy';
+INSERT INTO sch_scheduler
+(tas_id, operation, name, cron_expression, status, remark, create_by, create_time)
+VALUES (null, '1', 'amazonRecoverExecutionTimeBy', '0 * * * * ?', '0', '', 'admin', current_timestamp);

@@ -91,7 +91,7 @@ public class JobService extends BaseService<Integer, Job, JobExample, JobMapper>
                 return ;
             }
 
-            job.setCompleteTime(new Date());
+            record.setCompleteTime(new Date());
             this.updateJobStatusByPrimaryKey(record);
 
             rabbitTemplate.convertAndSend("JOB_MANAGE_API_QUEUE_KEY",
@@ -109,7 +109,7 @@ public class JobService extends BaseService<Integer, Job, JobExample, JobMapper>
             if(null == taskRetryRuleList
                     || null == (taskRetryRule = TaskRetryRule.getTaskRetry(failCounter, taskRetryRuleList))){
 
-                job.setCompleteTime(new Date());
+                record.setCompleteTime(new Date());
                 this.updateJobStatusByPrimaryKey(record);
             }else{
                 record.setStatus(JobStatus.NEW.getKey());

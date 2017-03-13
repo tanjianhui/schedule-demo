@@ -59,10 +59,10 @@ public class ExecuteJobProducer implements ApplicationContextAware {
             return ;
         }
 
-        rabbitTemplate.convertAndSend("INVENTORY_API_QUEUE_KEY",
+        rabbitTemplate.convertAndSend(messageContext.getRoutingKey(),
                     MessageBuilder.withBody(jsonString.getBytes(Charset.defaultCharset()))
-                            .setHeader("KEY", "com.gm.dropship.bean.request.GmRequestRefreshInventoryMessage")
-                            .setHeader("MODE", "INVENTORY").build());
+                            .setHeader("KEY", messageContext.getHeaderKey())
+                            .setHeader("MODE", messageContext.getHeaderMode()).build());
     }
 
     @Override

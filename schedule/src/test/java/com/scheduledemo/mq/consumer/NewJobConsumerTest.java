@@ -6,10 +6,12 @@ import com.scheduledemo.model.TaskRetryRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by tanjianhui on 2017/3/8.
@@ -32,5 +34,24 @@ public class NewJobConsumerTest {
 
         taskRetryRuleList = JSON.parseArray(taskRetryRuleListJson, TaskRetryRule.class);
         logger.info("{}", taskRetryRuleList);
+    }
+
+    @Test
+    public void testSetEx(){
+        Jedis jedis = new Jedis("it721.net", 6379);
+        logger.info("setex return : {}", jedis.setex("lock", 10, UUID.randomUUID().toString()));
+        logger.info("setex return : {}", jedis.setex("lock", 10, UUID.randomUUID().toString()));
+    }
+
+    @Test
+    public void testSetNx() throws Exception{
+        Jedis jedis = new Jedis("it721.net", 6379);
+        logger.info("setnx return : {}", jedis.setnx("lock", UUID.randomUUID().toString()));
+        jedis.expire("lock", 10);
+        logger.info("{}",jedis.ttl("lock"));
+        Thread.sleep(8000L);
+        logger.info("setnx return : {}", jedis.setnx("lock", UUID.randomUUID().toString()));
+        Thread.sleep(2000L);
+        logger.info("setnx return : {}", jedis.setnx("lock", UUID.randomUUID().toString()));
     }
 }

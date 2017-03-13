@@ -4,7 +4,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-lazy-init="false">
 	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="configLocation" value="classpath:quartz/quartz.properties"/>
+        <property name="configLocation" value="classpath:properties/quartz.properties"/>
         <property name="globalTriggerListeners">
             <list>
             </list>
@@ -53,6 +53,63 @@
         <property name="concurrent" value="false" />
         <property name="targetBean" value="stockSyncScheduler" />
         <property name="targetMethod" value="execute" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <!-- 亚马逊相关调度 -->
+    <bean id="amazonCheckJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="check" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonSubmitProductJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="submitProduct" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonSubmitProductImageJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="submitProductImage" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonSubmitProductRelationshipJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="submitProductRelationship" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonSubmitInventoryJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="submitInventory" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonSubmitFulfillmentJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="submitFulfillment" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonRecoverExecutionJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="recoverExecution" />
+        <property name="durable" value="true" />
+    </bean>
+
+    <bean id="amazonRecoverExecutionTimeByJobDetail" class="com.scheduledemo.sdk.schedule.BeanInvokingJobDetailFactoryBean">
+        <property name="concurrent" value="false" />
+        <property name="targetBean" value="amazonScheduler" />
+        <property name="targetMethod" value="recoverExecutionTimeBy" />
         <property name="durable" value="true" />
     </bean>
 </beans>
