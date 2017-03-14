@@ -49,7 +49,7 @@ public class ManageJobConsumer implements MessageListener {
             Integer platformId = job.getPlaId();
             String jobStatus = job.getStatus();
 
-            RunnableJobGroup runnableJobGroup = runnableJobGroups.get(deaId);
+            RunnableJobGroup runnableJobGroup = runnableJobGroups.get(platformId);
             if(null == runnableJobGroup){
                 int maxRunnableJobCount;
                 if(PlatformEnum.AMAZON.isPlatform(platformId)){
@@ -61,7 +61,7 @@ public class ManageJobConsumer implements MessageListener {
                     continue;
                 }
 
-                runnableJobGroups.put(deaId, (runnableJobGroup = new RunnableJobGroup(deaId, platformId, maxRunnableJobCount)));
+                runnableJobGroups.put(platformId, (runnableJobGroup = new RunnableJobGroup(deaId, platformId, maxRunnableJobCount)));
             }
 
             if(JobStatus.NEW.getKey().equals(jobStatus)){

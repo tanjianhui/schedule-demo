@@ -10,7 +10,7 @@
 	<context:property-placeholder location="classpath:properties/redis.properties"
 								  ignore-unresolvable="true" />
 
-	<!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal">
 			<value>${redis.pool.maxActive}</value>
 		</property>
@@ -25,5 +25,5 @@
 		<constructor-arg index="0" ref="jedisPoolConfig"/>
 		<constructor-arg index="1" value="${redis.host}" type="java.lang.String"/>
 		<constructor-arg index="2" value="${redis.port}" type="int"/>
-	</bean>-->
+	</bean>
 </beans>
