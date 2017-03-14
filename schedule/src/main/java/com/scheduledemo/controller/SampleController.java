@@ -4,6 +4,7 @@ package com.scheduledemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.scheduledemo.mq.producer.ExecuteJobProducer;
+import com.scheduledemo.schedule.AmazonScheduler;
 import com.scheduledemo.schedule.JobManagingScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,9 @@ public class SampleController {
 
     @Autowired
     private JobManagingScheduler jobManagingScheduler;
+
+    @Autowired
+    private AmazonScheduler amazonScheduler;
 
     @RequestMapping("/")
     @ResponseBody
@@ -95,5 +99,20 @@ public class SampleController {
         jobManagingScheduler.execute();
 
         return "Execute Job!";
+    }
+
+    @RequestMapping("/amazonScheduler")
+    @ResponseBody
+    public String amazonScheduler(){
+        amazonScheduler.check();
+        amazonScheduler.recoverExecution();
+        amazonScheduler.recoverExecutionTimeBy();
+        amazonScheduler.submitFulfillment();
+        amazonScheduler.submitInventory();
+        amazonScheduler.submitProduct();
+        amazonScheduler.submitProductImage();
+        amazonScheduler.submitProductRelationship();
+
+        return "amazonScheduler!";
     }
 }

@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 import redis.clients.jedis.Jedis;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by tanjianhui on 2017/3/8.
@@ -53,5 +50,29 @@ public class NewJobConsumerTest {
         logger.info("setnx return : {}", jedis.setnx("lock", UUID.randomUUID().toString()));
         Thread.sleep(2000L);
         logger.info("setnx return : {}", jedis.setnx("lock", UUID.randomUUID().toString()));
+    }
+
+    @Test
+    public void testIncreDecre() throws Exception{
+        Jedis jedis = new Jedis("it721.net", 6379);
+        jedis.set("counter", "1");
+        logger.info(jedis.get("counter"));
+        jedis.expire("counter", 5);
+        jedis.incr("counter");
+        logger.info(jedis.get("counter"));
+        jedis.decr("counter");
+        logger.info(jedis.get("counter"));
+    }
+
+    @Test
+    public void test1() throws Exception{
+        Jedis jedis = new Jedis("10.10.28.220", 6379);
+        logger.info("{}", jedis.keys("*"));
+    }
+
+    @Test
+    public void test2(){
+        Jedis jedis = new Jedis("10.10.28.220", 6379);
+//        jedis.info
     }
 }

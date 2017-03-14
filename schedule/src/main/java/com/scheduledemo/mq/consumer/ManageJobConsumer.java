@@ -38,7 +38,7 @@ public class ManageJobConsumer implements MessageListener {
         JobExample jobExample = new JobExample();
         List<String> statusList = Arrays.asList(
                         JobStatus.NEW.getKey(), JobStatus.INITIAL.getKey(),
-                        JobStatus.PROCESSING.getKey(), JobStatus.TIMEOUT.getKey());
+                        JobStatus.PROCESSING.getKey()/*, JobStatus.TIMEOUT.getKey()*/);
         jobExample.createCriteria().andStatusIn(statusList).andNextRunTimeLessThan(new Date());
         List<Job> jobListDividingIntoGroup = jobService.selectByExample(jobExample);
 
@@ -95,7 +95,7 @@ public class ManageJobConsumer implements MessageListener {
         private Integer deaId;
         // 平台主键
         private Integer platformId;
-        // 运行中的作业数（状态为Initial、Processing、Timeout）
+        // 运行中的作业数（状态为Initial、Processing）
         private Integer runningJobCount;
         // 可运行作业最大数量
         private Integer maxRunnableJobCount;
